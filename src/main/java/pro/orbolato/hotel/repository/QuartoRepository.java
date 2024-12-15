@@ -1,4 +1,4 @@
-package pro.repository;
+package pro.orbolato.hotel.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
