@@ -13,9 +13,9 @@
 	</parent>
 
 	<groupId>web</groupId>
-	<artifactId>controlevacinacao</artifactId>
+	<artifactId>reservahotel</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>controlevacinacao</name>
+	<name>reservahotel</name>
 
 	<properties>
 		<!-- Versao do Java -->
@@ -129,6 +129,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>annotationProcessor</scope>
 		</dependency>
 	</dependencies>
 
