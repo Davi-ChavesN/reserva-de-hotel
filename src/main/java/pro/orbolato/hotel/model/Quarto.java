@@ -14,5 +14,7 @@ public class Quarto {
     private int numero;
     private String tipo;
     private BigDecimal preco; 
+    
+    @Enumerated(EnumType.STRING)
     private Status status; 
 }
