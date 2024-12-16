@@ -16,13 +16,14 @@ public class QuartoController {
 
     private final QuartoService quartoService;
 
-    @GetMapping("/quartos")
+    @GetMapping()
     public String listarQuartos(Model model, Pageable pageable) {
         Page<Quarto> quartos = quartoService.buscarTodos(pageable);
+        System.out.println(quartos.getContent());
         model.addAttribute("quartos", quartos);
         model.addAttribute("title", "Lista de Quartos");
         model.addAttribute("content", "quarto/lista");
-        return "index";
+        return "quarto/lista";
     }
 
 

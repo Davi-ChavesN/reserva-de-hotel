@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" layout:decorate="~{layout/layoutpadrao}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
 <head>
-    <title th:text="${title} ?: 'Minha Aplicação'">Minha Aplicação</title>
-    <link href="/css/output.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Página Inicial - Sistema de Reservas</title>
 </head>
-<body class="bg-gray-100 text-gray-900">
-<!-- Cabeçalho Global -->
-<header class="bg-blue-600 text-white py-4">
-    <div class="container mx-auto text-center">
-        <h1 class="text-3xl font-bold">Gerenciamento de Quartos</h1>
+<body>
+<!-- Conteúdo principal -->
+<main layout:fragment="conteudo" id="main" class="flex flex-col items-center justify-center w-full">
+    <h1 class="text-3xl md:text-5xl font-bold text-center mt-10">
+        Bem-vindo ao Sistema de Reservas do Hotel
+    </h1>
+    <p class="text-lg text-gray-700 text-center mt-4 max-w-2xl">
+        Gerencie suas reservas, acompanhe o status dos quartos e otimize a gestão do seu hotel de forma simples e eficiente.
+    </p>
+    <div class="mt-8 space-x-4">
+        <a
+                href="/quartos"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
+        >
+            Gerenciar Quartos
+        </a>
+        <a
+                href="/reservas"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded"
+        >
+            Ver Reservas
+        </a>
     </div>
-</header>
-
-<!-- Conteúdo da Página -->
-<main class="container mx-auto my-8">
-    <div th:insert="${content}"></div>
 </main>
-
-<!-- Rodapé Global -->
-<footer class="bg-gray-800 text-gray-300 py-4 text-center">
-    <p>© 2024 Minha Aplicação. Todos os direitos reservados.</p>
-</footer>
+<!-- !Conteúdo principal -->
 </body>
 </html>
