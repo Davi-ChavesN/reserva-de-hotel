@@ -15,25 +15,34 @@
         Gerencie suas reservas, acompanhe o status dos quartos e otimize a gestão do seu hotel de forma simples e eficiente.
     </p>
     <div class="mt-8 space-x-4">
+        <!-- Botão Gerenciar Quartos -->
         <a
                 href="/quartos"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
         >
             Gerenciar Quartos
         </a>
+        <!-- Botão Ver Reservas -->
         <a
                 href="/reservas"
                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded"
         >
-            Ver Reservas
+            Gerenciar Reservas
         </a>
-
+        <!-- Botão Gerenciar Usuários -->
         <a
                 href="/usuarios"
                 class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded"
                 sec:authorize="hasRole('ROLE_ADMIN')"
         >
             Gerenciar Usuários
+        </a>
+        <!-- Botão Gerenciar Clientes -->
+        <a
+                href="/clientes"
+                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded"
+        >
+            Gerenciar Clientes
         </a>
     </div>
 </main>

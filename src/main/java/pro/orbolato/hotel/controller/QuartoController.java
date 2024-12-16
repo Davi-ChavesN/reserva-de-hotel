@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import pro.orbolato.hotel.enums.Status;
 import pro.orbolato.hotel.model.Quarto;
 import pro.orbolato.hotel.service.QuartoService;
 
@@ -16,20 +17,18 @@ public class QuartoController {
 
     private final QuartoService quartoService;
 
-    @GetMapping()
-    public String listarQuartos(Model model, Pageable pageable) {
-        Page<Quarto> quartos = quartoService.buscarTodos(pageable);
-        System.out.println(quartos.getContent());
-        model.addAttribute("quartos", quartos);
-        model.addAttribute("title", "Lista de Quartos");
-        model.addAttribute("content", "quarto/lista");
+    @GetMapping
+    public String listarQuartos(Model model, @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = Pageable.ofSize(5).withPage(page);
+        model.addAttribute("quartos", quartoService.buscarTodos(pageable));
         return "quarto/lista";
     }
 
-
     @GetMapping("/novo")
     public String novoQuartoForm(Model model) {
-        model.addAttribute("quarto", new Quarto());
+        Quarto quarto = new Quarto();
+        quarto.setStatus(Status.LIVRE);
+        model.addAttribute("quarto", quarto);
         return "quarto/form";
     }
 

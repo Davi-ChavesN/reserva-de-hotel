@@ -4,11 +4,15 @@
     <title th:text="${usuario.id == null ? 'Novo Usuário' : 'Editar Usuário'}"></title>
     <link href="/css/style.css" rel="stylesheet">
     <script>
-        // Validação de senha e confirmação
         function validarSenhas() {
             const senha = document.getElementById("password").value;
             const confirmacao = document.getElementById("confirm-password").value;
             const mensagemErro = document.getElementById("password-error");
+
+            if(senha.length < 5) {
+                mensagemErro.textContent = "A senha deve ter no mínimo 5 caracteres!";
+                return false;
+            }
 
             if (senha !== confirmacao) {
                 mensagemErro.textContent = "As senhas não correspondem!";
@@ -39,7 +43,7 @@
             <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Papel</label>
             <select id="role" name="role"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring focus:border-blue-300" required>
-                <option value="USER" th:selected="${usuario.role == 'USER'}">Usuário</option>
+                <option value="USER" th:selected="${usuario.role == 'USER'}">Comum</option>
                 <option value="ADMIN" th:selected="${usuario.role == 'ADMIN'}">Administrador</option>
             </select>
         </div>
@@ -73,6 +77,7 @@
             </a>
         </div>
     </form>
+
 </div>
 </body>
 </html>

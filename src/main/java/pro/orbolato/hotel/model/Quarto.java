@@ -8,6 +8,7 @@ import pro.orbolato.hotel.enums.Status;
 
 @Entity
 @Data
+@Table(name = "quarto")
 public class Quarto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

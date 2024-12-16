@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nova Reserva</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg w-full">
+    <h1 class="text-2xl font-bold text-center mb-6">Nova Reserva</h1>
+    <form th:action="@{/reservas}" th:object="${reserva}" method="post">
+
+        <!-- Cliente -->
+        <div class="mb-4">
+            <label for="cliente" class="block text-gray-700 text-sm font-bold mb-2">Cliente</label>
+            <select id="cliente" name="cliente.id" th:field="*{cliente.id}"
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
+                <option value="" disabled>Selecione um Cliente</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+            </select>
+        </div>
+
+        <!-- Quarto -->
+        <div class="mb-4">
+            <label for="quarto" class="block text-gray-700 text-sm font-bold mb-2">Quarto</label>
+            <select id="quarto" name="quarto.id" th:field="*{quarto.id}"
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
+                <option value="" disabled>Selecione um Quarto Livre</option>
+                <option th:each="quarto : ${quartos}" th:value="${quarto.id}" th:text="${quarto.numero}"></option>
+            </select>
+        </div>
+
+        <!-- Data de Check-In -->
+        <div class="mb-4">
+            <label for="dataCheckIn" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-In</label>
+            <input type="date" id="dataCheckIn" th:field="*{dataCheckIn}"
+                   class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
+        </div>
+
+        <!-- Data de Check-Out -->
+        <div class="mb-4">
+            <label for="dataCheckOut" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-Out</label>
+            <input type="date" id="dataCheckOut" th:field="*{dataCheckOut}"
+                   class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-end space-x-4">
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Salvar
+            </button>
+            <a href="/reservas" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

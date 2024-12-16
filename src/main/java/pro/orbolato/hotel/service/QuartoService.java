@@ -5,9 +5,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import pro.orbolato.hotel.enums.Status;
 import pro.orbolato.hotel.model.Quarto;
 import pro.orbolato.hotel.repository.QuartoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,4 +49,7 @@ public class QuartoService {
     }
 
 
+    public List<Quarto> buscarPorStatus(Status status) {
+        return quartoRepository.findByStatus(status);
+    }
 }

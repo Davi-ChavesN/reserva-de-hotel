@@ -1,6 +1,7 @@
 package pro.orbolato.hotel.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import pro.orbolato.hotel.enums.TipoUser;
 
