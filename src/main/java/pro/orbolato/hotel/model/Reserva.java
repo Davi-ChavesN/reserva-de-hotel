@@ -7,6 +7,7 @@ import pro.orbolato.hotel.enums.StatusReserva;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -36,4 +37,13 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "quarto_id", nullable = false)
     private Quarto quarto;
+
+    public String getDataCheckInFormatted() {
+        return dataCheckIn.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getDataCheckOutFormatted() {
+        return dataCheckOut.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
 }

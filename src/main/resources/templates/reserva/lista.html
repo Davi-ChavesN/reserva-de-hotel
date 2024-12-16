@@ -33,8 +33,8 @@
             <td class="border px-4 py-2 text-center" th:text="${reserva.id}"></td>
             <td class="border px-4 py-2 text-center" th:text="${reserva.cliente.nome}"></td>
             <td class="border px-4 py-2 text-center" th:text="${reserva.quarto.numero}"></td>
-            <td class="border px-4 py-2 text-center" th:text="${reserva.dataCheckIn}"></td>
-            <td class="border px-4 py-2 text-center" th:text="${reserva.dataCheckOut}"></td>
+            <td class="border px-4 py-2 text-center" th:text="${reserva.getDataCheckInFormatted}"></td>
+            <td class="border px-4 py-2 text-center" th:text="${reserva.getDataCheckOutFormatted}"></td>
             <td class="border px-4 py-2 text-center"
                 th:text="'R$ ' + ${#numbers.formatDecimal(reserva.valorReserva, 1, 'POINT', 2, 'COMMA')}">
             </td>
