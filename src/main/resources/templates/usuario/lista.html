@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR" layout:decorate="~{layout/layoutpadrao}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title} ?: 'Lista de Quartos'">Gerenciar Usuários</title>
+</head>
+<body>
+<main layout:fragment="conteudo">
+    <!-- Header da tabela -->
+    <div class="flex justify-between items-center mt-6 max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold">Lista de Usuários</h1>
+        <a href="/usuarios/novo" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Novo Usuário
+        </a>
+    </div>
+
+    <!-- Tabela -->
+    <table class="table-auto mt-6 border-collapse border border-gray-300 mx-auto max-w-4xl w-full rounded-md overflow-hidden shadow-lg">
+        <thead>
+        <tr class="bg-blue-500 text-white">
+            <th class="border border-gray-300 px-4 py-2">ID</th>
+            <th class="border border-gray-300 px-4 py-2">Usuário</th>
+            <th class="border border-gray-300 px-4 py-2">Role</th>
+            <th class="border border-gray-300 px-4 py-2">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}" class="hover:bg-gray-100 even:bg-gray-200">
+            <td class="border border-gray-300 px-4 py-2 text-center" th:text="${usuario.id}"></td>
+            <td class="border border-gray-300 px-4 py-2 text-center" th:text="${usuario.username}"></td>
+            <td class="border border-gray-300 px-4 py-2 text-center" th:text="${usuario.role.displayName}">
+            <td class="border border-gray-300 px-4 py-2 text-center">
+                <div class="flex justify-center space-x-2">
+                    <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}"
+                       class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                        Editar
+                    </a>
+                    <form th:action="@{/usuarios/{id}(id=${usuario.id})}" method="post" style="display:inline;">
+                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit">
+                            Deletar
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

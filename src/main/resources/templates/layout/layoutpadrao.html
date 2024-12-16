@@ -5,23 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <title th:text="${title} ?: 'Sistema de Reservas'">Sistema de Reservas</title>
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-<!-- Cabeçalho -->
 <header class="bg-blue-600 text-white py-4">
-    <div class="container mx-auto text-center">
-        <h1 class="text-3xl font-bold">Sistema de Reservas</h1>
+    <div class="container mx-auto flex justify-between items-center px-8">
+        <a href="/" class="text-white text-2xl hover:text-gray-300">
+            <i class="fas fa-home"></i>
+        </a>
+        <h1 class="text-3xl font-bold text-center flex-grow">Sistema de Reservas</h1>
+        <form th:action="@{/logout}" method="post">
+            <div class="flex items-center align-middle space-x-2">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <button
+                    type="submit"
+                    class="text-white text-sm hover:underline focus:outline-none"
+            >
+                Logout
+            </button>
+            </div>
+        </form>
     </div>
 </header>
 
-<!-- Conteúdo Principal -->
 <main class="container mx-auto flex-grow mt-8">
     <div layout:fragment="conteudo"></div>
 </main>
 
-<!-- Rodapé -->
 <footer class="bg-gray-800 text-gray-300 py-4 text-center">
-    <p>© 2024 Hotel XYZ. Todos os direitos reservados.</p>
+    <p>© 2024 Hotel Grosbilda. Todos os direitos reservados.</p>
 </footer>
 </body>
 </html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${usuario.id == null ? 'Novo Usuário' : 'Editar Usuário'}"></title>
+    <link href="/css/style.css" rel="stylesheet">
+    <script>
+        // Validação de senha e confirmação
+        function validarSenhas() {
+            const senha = document.getElementById("password").value;
+            const confirmacao = document.getElementById("confirm-password").value;
+            const mensagemErro = document.getElementById("password-error");
+
+            if (senha !== confirmacao) {
+                mensagemErro.textContent = "As senhas não correspondem!";
+                return false;
+            }
+
+            mensagemErro.textContent = "";
+            return true;
+        }
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg w-full">
+    <h1 class="text-2xl font-bold text-center mb-6" th:text="${usuario.id == null ? 'Novo Usuário' : 'Editar Usuário'}"></h1>
+    <form th:action="@{/usuarios}" th:object="${usuario}" method="post" onsubmit="return validarSenhas()">
+        <input type="hidden" th:if="${usuario.id != null}" name="id" th:value="${usuario.id}" />
+
+        <!-- Campo Nome de Usuário -->
+        <div class="mb-4">
+            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Nome de Usuário</label>
+            <input type="text" id="username" name="username" th:value="${usuario.username}"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring focus:border-blue-300"
+                   placeholder="Digite o nome de usuário" required>
+        </div>
+
+        <!-- Campo Papel -->
+        <div class="mb-4">
+            <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Papel</label>
+            <select id="role" name="role"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring focus:border-blue-300" required>
+                <option value="USER" th:selected="${usuario.role == 'USER'}">Usuário</option>
+                <option value="ADMIN" th:selected="${usuario.role == 'ADMIN'}">Administrador</option>
+            </select>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="mb-4">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Senha</label>
+            <input type="password" id="password" name="password"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring focus:border-blue-300"
+                   placeholder="Digite a senha" th:required="${usuario.id == null}">
+        </div>
+
+        <!-- Campo Confirmação de Senha -->
+        <div class="mb-4">
+            <label for="confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirmação de Senha</label>
+            <input type="password" id="confirm-password"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring focus:border-blue-300"
+                   placeholder="Confirme a senha" th:required="${usuario.id == null}">
+            <p id="password-error" class="text-red-500 text-sm mt-2"></p>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-end space-x-4">
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Salvar
+            </button>
+            <a href="/usuarios"
+               class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

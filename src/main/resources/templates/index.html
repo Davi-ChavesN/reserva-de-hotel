@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" layout:decorate="~{layout/layoutpadrao}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
+<html lang="pt-BR" layout:decorate="~{layout/layoutpadrao}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
@@ -26,6 +26,14 @@
                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded"
         >
             Ver Reservas
+        </a>
+
+        <a
+                href="/usuarios"
+                class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded"
+                sec:authorize="hasRole('ROLE_ADMIN')"
+        >
+            Gerenciar Usuários
         </a>
     </div>
 </main>
