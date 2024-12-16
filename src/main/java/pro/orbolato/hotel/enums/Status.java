@@ -2,8 +2,7 @@ package pro.orbolato.hotel.enums;
 
 public enum Status {
     LIVRE("Livre"),
-    OCUPADO("Ocupado"),
-    RESERVADO("Reservado");
+    OCUPADO("Ocupado");
 
     private final String displayName;
 

@@ -23,6 +23,7 @@
             <th class="border px-4 py-2">Quarto</th>
             <th class="border px-4 py-2">Check-In</th>
             <th class="border px-4 py-2">Check-Out</th>
+            <th class="border px-4 py-2">Valor</th>
             <th class="border px-4 py-2">Status</th>
             <th class="border px-4 py-2">Ações</th>
         </tr>
@@ -34,15 +35,18 @@
             <td class="border px-4 py-2 text-center" th:text="${reserva.quarto.numero}"></td>
             <td class="border px-4 py-2 text-center" th:text="${reserva.dataCheckIn}"></td>
             <td class="border px-4 py-2 text-center" th:text="${reserva.dataCheckOut}"></td>
+            <td class="border px-4 py-2 text-center"
+                th:text="'R$ ' + ${#numbers.formatDecimal(reserva.valorReserva, 1, 'POINT', 2, 'COMMA')}">
+            </td>
             <td class="border px-4 py-2 text-center" th:text="${reserva.status}"></td>
             <td class="border px-4 py-2 text-center">
                 <div class="flex justify-center space-x-2">
                     <form th:action="@{/reservas/checkin/{id}(id=${reserva.id})}" method="post">
-                        <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700"
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
                                 th:if="${reserva.status.name() == 'AGENDADO'}">Check-In</button>
                     </form>
                     <form th:action="@{/reservas/checkout/{id}(id=${reserva.id})}" method="post">
-                        <button type="submit" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-700"
+                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700"
                                 th:if="${reserva.status.name() == 'UTILIZANDO'}">Check-Out</button>
                     </form>
                 </div>

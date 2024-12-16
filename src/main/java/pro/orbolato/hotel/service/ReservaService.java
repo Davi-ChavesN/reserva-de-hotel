@@ -37,7 +37,6 @@ public class ReservaService {
             BigDecimal totalDias = BigDecimal.valueOf(dias);
 
             reserva.setValorReserva(precoDiario.multiply(totalDias));
-            quarto.setStatus(Status.RESERVADO);
             reserva.setStatus(StatusReserva.AGENDADO);
             quartoRepository.save(quarto);
             reservaRepository.save(reserva);
@@ -51,7 +50,7 @@ public class ReservaService {
                 .orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
         Quarto quarto = reserva.getQuarto();
 
-        if (quarto.getStatus() == Status.RESERVADO) {
+            if (quarto.getStatus() == Status.LIVRE) {
             quarto.setStatus(Status.OCUPADO);
             reserva.setStatus(StatusReserva.UTILIZANDO);
             quartoRepository.save(quarto);
