@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulário de Quarto</title>
+</head>
+<body>
+<h1 th:text="${quarto.id == null ? 'Novo Quarto' : 'Editar Quarto'}"></h1>
+<form th:action="@{/quartos}" th:object="${quarto}" method="post">
+    <input type="hidden" th:if="${quarto.id != null}" name="id" th:value="${quarto.id}" />
+    <div>
+        <label for="numero">Número</label>
+        <input type="text" id="numero" name="numero" th:value="${quarto.numero}" />
+    </div>
+    <div>
+        <label for="tipo">Tipo</label>
+        <input type="text" id="tipo" name="tipo" th:value="${quarto.tipo}" />
+    </div>
+    <div>
+        <label for="preco">Preço</label>
+        <input type="number" id="preco" name="preco" th:value="${quarto.preco}" />
+    </div>
+    <div>
+        <label for="status">Status</label>
+        <input type="text" id="status" name="status" th:value="${quarto.status}" />
+    </div>
+    <div>
+        <button type="submit">Salvar</button>
+        <a href="/quartos">Cancelar</a>
+    </div>
+</form>
+</body>
+</html>

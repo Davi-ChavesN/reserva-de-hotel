@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Inicial</title>
+    <title th:text="${title} ?: 'Minha Aplicação'">Minha Aplicação</title>
+    <link href="/css/output.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Isto é um texto</h1>
+<body class="bg-gray-100 text-gray-900">
+<!-- Cabeçalho Global -->
+<header class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto text-center">
+        <h1 class="text-3xl font-bold">Gerenciamento de Quartos</h1>
+    </div>
+</header>
+
+<!-- Conteúdo da Página -->
+<main class="container mx-auto my-8">
+    <div th:insert="${content}"></div>
+</main>
+
+<!-- Rodapé Global -->
+<footer class="bg-gray-800 text-gray-300 py-4 text-center">
+    <p>© 2024 Minha Aplicação. Todos os direitos reservados.</p>
+</footer>
 </body>
 </html>

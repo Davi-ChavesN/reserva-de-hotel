@@ -2,5 +2,28 @@
   "name": "reserva-de-hotel",
   "lockfileVersion": 3,
   "requires": true,
-  "packages": {}
+  "packages": {},
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Davi-ChavesN/reserva-de-hotel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Davi-ChavesN/reserva-de-hotel/issues"
+  },
+  "homepage": "https://github.com/Davi-ChavesN/reserva-de-hotel#readme",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
+  }
 }

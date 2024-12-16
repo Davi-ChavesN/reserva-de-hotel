@@ -1,53 +1,60 @@
 package pro.orbolato.hotel.controller;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Controller;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import pro.orbolato.hotel.model.Quarto;
-import pro.orbolato.hotel.repository.QuartoRepository;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import pro.orbolato.hotel.service.QuartoService;
 
 @Controller
-@RequestMapping("/quarto")
 @RequiredArgsConstructor
+@RequestMapping("/quartos")
 public class QuartoController {
 
-    private final QuartoRepository quartoRepository;
+    private final QuartoService quartoService;
 
-    @GetMapping("/{id}")
-    public Optional<Quarto> getMethodName(@RequestParam Long id) {
-        return quartoRepository.findById(id);
+    @GetMapping("/quartos")
+    public String listarQuartos(Model model, Pageable pageable) {
+        Page<Quarto> quartos = quartoService.buscarTodos(pageable);
+        model.addAttribute("quartos", quartos);
+        model.addAttribute("title", "Lista de Quartos");
+        model.addAttribute("content", "quarto/lista");
+        return "index";
+    }
+
+
+    @GetMapping("/novo")
+    public String novoQuartoForm(Model model) {
+        model.addAttribute("quarto", new Quarto());
+        return "quarto/form";
     }
 
     @PostMapping
-    public Quarto criarQuarto(@RequestBody Quarto quarto) {
-        return quartoRepository.save(quarto);
+    public String salvarQuarto(@ModelAttribute Quarto quarto) {
+        quartoService.criar(quarto);
+        return "redirect:/quartos";
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarQuarto(@RequestParam Long id) {
-        quartoRepository.deleteById(id);
+    @GetMapping("/{id}/editar")
+    public String editarQuartoForm(@PathVariable Long id, Model model) {
+        Quarto quarto = quartoService.buscarPorId(id)
+                .orElseThrow(() -> new RuntimeException("Quarto não encontrado"));
+        model.addAttribute("quarto", quarto);
+        return "quarto/form";
     }
 
-    @PutMapping("/{id}")
-    public Quarto atualizarQuarto(@RequestParam Long id, @RequestBody Quarto quarto) {
-        return quartoRepository.findById(id).map(quartoExistente -> {
-            quartoExistente.setPreco(quarto.getPreco());
-            quartoExistente.setTipo(quarto.getTipo());
-            quartoExistente.setNumero(quarto.getNumero());
-            quartoExistente.setStatus(quarto.getStatus());
-
-            return quartoRepository.save(quartoExistente);
-        }).orElseThrow(() -> new RuntimeException("Modelo com ID " + id + " não encontrado"));
+    @PostMapping("/{id}")
+    public String atualizarQuarto(@PathVariable Long id, @ModelAttribute Quarto quarto) {
+        quartoService.atualizar(id, quarto);
+        return "redirect:/quartos";
     }
 
+    @PostMapping("/{id}/deletar")
+    public String deletarQuarto(@PathVariable Long id) {
+        quartoService.deletar(id);
+        return "redirect:/quartos";
+    }
 }

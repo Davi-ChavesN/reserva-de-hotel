@@ -1,0 +1,39 @@
+<div>
+    <h1 class="text-2xl font-bold text-center mt-6">Lista de Quartos</h1>
+    <div class="mt-4 text-right">
+        <a href="/quartos/novo" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Novo Quarto
+        </a>
+    </div>
+    <table class="table-auto w-full mt-6 border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200">
+            <th class="border border-gray-300 px-4 py-2">ID</th>
+            <th class="border border-gray-300 px-4 py-2">Número</th>
+            <th class="border border-gray-300 px-4 py-2">Tipo</th>
+            <th class="border border-gray-300 px-4 py-2">Preço</th>
+            <th class="border border-gray-300 px-4 py-2">Status</th>
+            <th class="border border-gray-300 px-4 py-2">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="quarto : ${quartos.content}" class="hover:bg-gray-100">
+            <td class="border border-gray-300 px-4 py-2" th:text="${quarto.id}"></td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${quarto.numero}"></td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${quarto.tipo}"></td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${quarto.preco}"></td>
+            <td class="border border-gray-300 px-4 py-2" th:text="${quarto.status}"></td>
+            <td class="border border-gray-300 px-4 py-2">
+                <a th:href="@{/quartos/{id}/editar(id=${quarto.id})}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700">
+                    Editar
+                </a>
+                <form th:action="@{/quartos/{id}/deletar(id=${quarto.id})}" method="post" style="display:inline;">
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700" type="submit">
+                        Deletar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
