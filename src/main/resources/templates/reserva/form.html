@@ -9,8 +9,9 @@
 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg w-full">
     <h1 class="text-2xl font-bold text-center mb-6">Nova Reserva</h1>
     <form th:action="@{/reservas}" th:object="${reserva}" method="post">
-
-        <!-- Cliente -->
+        <div th:if="${erro}" class="bg-red-100 text-red-700 p-4 mb-4 rounded">
+            <p th:text="${erro}"></p>
+        </div>
         <div class="mb-4">
             <label for="cliente" class="block text-gray-700 text-sm font-bold mb-2">Cliente</label>
             <select id="cliente" name="cliente.id" th:field="*{cliente.id}"
@@ -20,40 +21,36 @@
             </select>
         </div>
 
-        <!-- Data de Check-In -->
         <div class="mb-4">
             <label for="dataCheckIn" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-In</label>
             <input type="date" id="dataCheckIn" th:field="*{dataCheckIn}"
                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
         </div>
 
-        <!-- Data de Check-Out -->
         <div class="mb-4">
             <label for="dataCheckOut" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-Out</label>
             <input type="date" id="dataCheckOut" th:field="*{dataCheckOut}"
                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
         </div>
 
-        <!-- Quarto -->
         <div class="mb-4">
             <label for="quarto" class="block text-gray-700 text-sm font-bold mb-2">Quarto</label>
             <select id="quarto" name="quarto.id" th:field="*{quarto.id}"
                     class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
                 <option value="" disabled>Selecione um Quarto Livre</option>
-                <!-- Os quartos disponíveis serão carregados dinamicamente -->
             </select>
         </div>
 
 
-        <!-- Botões -->
-        <div class="flex justify-end space-x-4">
-            <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Salvar
-            </button>
-            <a href="/reservas" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">
+        <div class="flex justify-between space-x-4">
+            <a href="/reservas"
+               class="text-blue-500 hover:underline font-bold py-2 px-4">
                 Cancelar
             </a>
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Salvar
+            </button>
         </div>
     </form>
 </div>

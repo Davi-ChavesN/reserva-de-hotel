@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public void salvarOuAtualizar(User usuario, String password) {
-        if (usuario.getId() != null) { // Caso de atualização
+        if (usuario.getId() != null) {
             User existente = userRepository.findById(usuario.getId())
                     .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + usuario.getId()));
 
@@ -50,6 +50,6 @@ public class UserService {
     }
 
     public void atualizar(Long id, User usuario) {
-        salvarOuAtualizar(usuario, null); // Atualização sem alterar a senha
+        salvarOuAtualizar(usuario, null);
     }
 }

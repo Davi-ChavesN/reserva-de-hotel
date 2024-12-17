@@ -50,7 +50,29 @@ public class ReservaController {
     }
 
     @PostMapping
-    public String salvarReserva(@ModelAttribute Reserva reserva) {
+    public String salvarReserva(@ModelAttribute Reserva reserva, Model model) {
+        LocalDate dataAtual = LocalDate.now();
+        LocalDate checkin = reserva.getDataCheckIn();
+        LocalDate checkout = reserva.getDataCheckOut();
+        List<Quarto> quartosLivres = quartoService.buscarPorStatus(Status.LIVRE);
+        List<Cliente> clientes = clienteService.listTodos();
+
+        if (checkin.isAfter(checkout) || checkin.isEqual(checkout)) {
+            model.addAttribute("erro", "A data de check-in deve ser antes da data de check-out.");
+            model.addAttribute("reserva", new Reserva());
+            model.addAttribute("quartos", quartosLivres);
+            model.addAttribute("clientes", clientes);
+            return "reserva/form";
+        }
+
+        if (checkin.isBefore(dataAtual) || checkout.isBefore(dataAtual)) {
+            model.addAttribute("erro", "As datas de check-in e check-out não podem ser anteriores à data atual.");
+            model.addAttribute("reserva", new Reserva());
+            model.addAttribute("quartos", quartosLivres);
+            model.addAttribute("clientes", clientes);
+            return "reserva/form";
+        }
+
         reserva.setQuarto(quartoRepository.getById(reserva.getQuarto().getId()));
         reservaService.salvarReserva(reserva);
         return "redirect:/reservas";
