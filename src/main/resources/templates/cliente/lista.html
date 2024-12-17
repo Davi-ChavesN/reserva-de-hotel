@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" layout:decorate="~{layout/layoutpadrao}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
 <head>
-    <title>Lista de Clientes</title>
+    <title th:text="${title} ?: 'Lista de Clientes'">Lista de Clientes</title>
 </head>
 <body>
 <main layout:fragment="conteudo">
