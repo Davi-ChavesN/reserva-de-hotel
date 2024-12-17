@@ -4,7 +4,6 @@
     <title>Formulário de Quarto</title>
     <link href="/css/style.css" rel="stylesheet">
     <script>
-        // Client-side validation before submission
         function validateForm() {
             const numero = document.getElementById("numero").value.trim();
             const tipo = document.getElementById("tipo").value.trim();
@@ -12,7 +11,11 @@
             const status = document.getElementById("status").value.trim();
 
             if (!numero || !tipo || !preco || !status) {
-                alert("Todos os campos são obrigatórios!");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Todos os campos são obrigatórios!',
+                });
                 return false;
             }
             return true;
@@ -77,5 +80,6 @@
         </div>
     </form>
 </div>
+
 </body>
 </html>

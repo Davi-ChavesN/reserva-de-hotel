@@ -14,7 +14,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     @Query("SELECT q FROM Quarto q WHERE q.id NOT IN " +
             "(SELECT r.quarto.id FROM Reserva r " +
-            "WHERE :dataCheckIn <= r.dataCheckOut AND :dataCheckOut >= r.dataCheckIn)")
+            "WHERE :dataCheckIn <= r.dataCheckOut AND :dataCheckOut >= r.dataCheckIn AND (r.status = 'AGENDADO' OR r.status = 'UTILIZANDO'))")
     List<Quarto> findQuartosDisponiveis(@Param("dataCheckIn") LocalDate dataCheckIn,
                                         @Param("dataCheckOut") LocalDate dataCheckOut);
 }

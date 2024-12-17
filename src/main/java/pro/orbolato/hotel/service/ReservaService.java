@@ -78,4 +78,12 @@ public class ReservaService {
     public Page<Reserva> listarTodas(Pageable pageable) {
         return reservaRepository.findAll(pageable);
     }
+
+    public void deletarReserva(Long id) {
+        if (reservaRepository.existsById(id)) {
+            reservaRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Reserva com ID " + id + " não encontrada");
+        }
+    }
 }

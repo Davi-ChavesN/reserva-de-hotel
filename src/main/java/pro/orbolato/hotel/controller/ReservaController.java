@@ -67,4 +67,10 @@ public class ReservaController {
         reservaService.realizarCheckOut(id);
         return "redirect:/reservas";
     }
+
+    @PostMapping("/deletar/{id}")
+    public String deletarReserva(@PathVariable Long id) {
+        reservaService.deletarReserva(id);
+        return "redirect:/reservas";
+    }
 }

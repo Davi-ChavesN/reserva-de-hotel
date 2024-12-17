@@ -1,13 +1,17 @@
 package pro.orbolato.hotel.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pro.orbolato.hotel.model.Cliente;
 import pro.orbolato.hotel.service.ClienteService;
+
+import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,8 +35,24 @@ public class ClienteController {
     }
 
     @PostMapping
-    public String salvarCliente(@ModelAttribute Cliente cliente) {
-        clienteService.salvar(cliente);
+    public String salvarCliente(@ModelAttribute Cliente cliente, BindingResult result) {
+        cliente.setCpf(cliente.getCpf().replace(".", "").replace("-", ""));
+
+        if (result.hasErrors()) {
+            return "cliente/form";
+        }
+
+        try {
+            clienteService.salvar(cliente);
+        } catch (DataIntegrityViolationException e) {
+            result.rejectValue("cpf", "error.cliente", "CPF já cadastrado. Por favor, insira um CPF diferente.");
+            return "cliente/form";
+        } catch (Exception e) {
+            result.reject("globalError", "Erro ao salvar cliente.");
+            return "cliente/form";
+        }
+
+
         return "redirect:/clientes";
     }
 
