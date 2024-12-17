@@ -1,6 +1,7 @@
 package pro.orbolato.hotel.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import pro.orbolato.hotel.enums.Status;
 import pro.orbolato.hotel.model.Quarto;
 import pro.orbolato.hotel.service.QuartoService;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,4 +61,14 @@ public class QuartoController {
         quartoService.deletar(id);
         return "redirect:/quartos";
     }
+
+    @GetMapping("/disponiveis")
+    @ResponseBody
+    public List<Quarto> getQuartosDisponiveis(
+            @RequestParam("dataCheckIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataCheckIn,
+            @RequestParam("dataCheckOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataCheckOut) {
+
+        return quartoService.findDisponiveis(dataCheckIn, dataCheckOut);
+    }
+
 }

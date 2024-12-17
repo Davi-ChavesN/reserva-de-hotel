@@ -3,6 +3,23 @@
       xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <title>Lista de Reservas</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.confirmarCheckout = function(event, dataEsperada, dataAtual) {
+                if (dataAtual !== dataEsperada) {
+                    const confirmacao = confirm(
+                        "Você está tentando fazer o Check-Out fora da data esperada. O valor total será cobrado. Deseja continuar?"
+                    );
+                    if (!confirmacao) {
+                        event.preventDefault();
+                        return;
+                    }
+                }
+                event.target.closest('form').submit();
+            }
+        });
+
+    </script>
 </head>
 <body>
 <main layout:fragment="conteudo" class="container mx-auto mt-8">
@@ -43,12 +60,21 @@
                 <div class="flex justify-center space-x-2">
                     <form th:action="@{/reservas/checkin/{id}(id=${reserva.id})}" method="post">
                         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-                                th:if="${reserva.status.name() == 'AGENDADO'}">Check-In</button>
+                                th:if="${reserva.status.name() == 'AGENDADO' and reserva.dataCheckIn == today}">
+                            Check-In
+                        </button>
                     </form>
                     <form th:action="@{/reservas/checkout/{id}(id=${reserva.id})}" method="post">
-                        <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700"
-                                th:if="${reserva.status.name() == 'UTILIZANDO'}">Check-Out</button>
+                    <button type="button"
+                            class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700"
+                            th:if="${reserva.status.name() == 'UTILIZANDO'}"
+                            data-checkout-expected="${#temporals.format(reserva.dataCheckOut, 'yyyy-MM-dd')}"
+                            data-checkout-current="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+                            onclick="confirmarCheckout(event, this.getAttribute('data-checkout-expected'), this.getAttribute('data-checkout-current'))">
+                        Check-Out
+                    </button>
                     </form>
+
                 </div>
             </td>
         </tr>
@@ -61,7 +87,7 @@
             <ul class="flex items-center space-x-2">
                 <!-- Botão Anterior -->
                 <li th:if="${reservas.hasPrevious()}">
-                    <a th:href="@{/usuarios(page=${reservas.number - 1}, size=${reservas.size})}"
+                    <a th:href="@{/reservas(page=${reservas.number - 1}, size=${reservas.size})}"
                        class="flex items-center px-3 py-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 rounded-l-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -81,7 +107,7 @@
 
                 <!-- Páginas -->
                 <li th:each="page : ${#numbers.sequence(0, reservas.totalPages - 1)}">
-                    <a th:href="@{/usuarios(page=${page}, size=${reservas.size})}"
+                    <a th:href="@{/reservas(page=${page}, size=${reservas.size})}"
                        th:classappend="${page == reservas.number} ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-gray-200'"
                        class="px-3 py-2 border border-gray-300 rounded">
                         <span th:text="${page + 1}"></span>
@@ -90,7 +116,7 @@
 
                 <!-- Botão Próximo -->
                 <li th:if="${reservas.hasNext()}">
-                    <a th:href="@{/usuarios(page=${reservas.number + 1}, size=${reservas.size})}"
+                    <a th:href="@{/reservas(page=${reservas.number + 1}, size=${reservas.size})}"
                        class="flex items-center px-3 py-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 rounded-r-md">
                         <span class="mr-1">Próximo</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
@@ -111,5 +137,6 @@
         </nav>
     </div>
 </main>
+
 </body>
 </html>

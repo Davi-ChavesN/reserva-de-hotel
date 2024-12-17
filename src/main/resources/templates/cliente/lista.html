@@ -52,7 +52,7 @@
             <ul class="flex items-center space-x-2">
                 <!-- Botão Anterior -->
                 <li th:if="${clientes.hasPrevious()}">
-                    <a th:href="@{/quartos(page=${clientes.number - 1}, size=${clientes.size})}"
+                    <a th:href="@{/clientes(page=${clientes.number - 1}, size=${clientes.size})}"
                        class="flex items-center px-3 py-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 rounded-l-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -72,7 +72,7 @@
 
                 <!-- Páginas -->
                 <li th:each="page : ${#numbers.sequence(0, clientes.totalPages - 1)}">
-                    <a th:href="@{/quartos(page=${page}, size=${clientes.size})}"
+                    <a th:href="@{/clientes(page=${page}, size=${clientes.size})}"
                        th:classappend="${page == clientes.number} ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-gray-200'"
                        class="px-3 py-2 border border-gray-300 rounded">
                         <span th:text="${page + 1}"></span>
@@ -80,7 +80,7 @@
                 </li>
 
                 <li th:if="${clientes.hasNext()}">
-                    <a th:href="@{/quartos(page=${clientes.number + 1}, size=${clientes.size})}"
+                    <a th:href="@{/clientes(page=${clientes.number + 1}, size=${clientes.size})}"
                        class="flex items-center px-3 py-2 border border-gray-300 bg-gray-100 hover:bg-gray-200 rounded-r-md">
                         <span class="mr-1">Próximo</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">

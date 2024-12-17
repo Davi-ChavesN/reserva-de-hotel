@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import pro.orbolato.hotel.enums.Status;
 import pro.orbolato.hotel.model.Quarto;
 import pro.orbolato.hotel.repository.QuartoRepository;
+import pro.orbolato.hotel.repository.ReservaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class QuartoService {
 
     private final QuartoRepository quartoRepository;
+    private final ReservaRepository reservaRepository;
 
     public Optional<Quarto> buscarPorId(Long id) {
         return quartoRepository.findById(id);
@@ -52,4 +55,9 @@ public class QuartoService {
     public List<Quarto> buscarPorStatus(Status status) {
         return quartoRepository.findByStatus(status);
     }
+
+    public List<Quarto> findDisponiveis(LocalDate dataCheckIn, LocalDate dataCheckOut) {
+        return reservaRepository.findQuartosDisponiveis(dataCheckIn, dataCheckOut);
+    }
+
 }

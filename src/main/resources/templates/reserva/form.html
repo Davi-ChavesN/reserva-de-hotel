@@ -4,6 +4,7 @@
     <title>Nova Reserva</title>
     <link href="/css/style.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg w-full">
     <h1 class="text-2xl font-bold text-center mb-6">Nova Reserva</h1>
@@ -16,16 +17,6 @@
                     class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
                 <option value="" disabled>Selecione um Cliente</option>
                 <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
-            </select>
-        </div>
-
-        <!-- Quarto -->
-        <div class="mb-4">
-            <label for="quarto" class="block text-gray-700 text-sm font-bold mb-2">Quarto</label>
-            <select id="quarto" name="quarto.id" th:field="*{quarto.id}"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
-                <option value="" disabled>Selecione um Quarto Livre</option>
-                <option th:each="quarto : ${quartos}" th:value="${quarto.id}" th:text="${quarto.numero}"></option>
             </select>
         </div>
 
@@ -43,6 +34,17 @@
                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
         </div>
 
+        <!-- Quarto -->
+        <div class="mb-4">
+            <label for="quarto" class="block text-gray-700 text-sm font-bold mb-2">Quarto</label>
+            <select id="quarto" name="quarto.id" th:field="*{quarto.id}"
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
+                <option value="" disabled>Selecione um Quarto Livre</option>
+                <!-- Os quartos disponíveis serão carregados dinamicamente -->
+            </select>
+        </div>
+
+
         <!-- Botões -->
         <div class="flex justify-end space-x-4">
             <button type="submit"
@@ -55,5 +57,37 @@
         </div>
     </form>
 </div>
+<script>
+    document.getElementById('dataCheckIn').addEventListener('change', updateQuartosDisponiveis);
+    document.getElementById('dataCheckOut').addEventListener('change', updateQuartosDisponiveis);
+
+    async function updateQuartosDisponiveis() {
+        const dataCheckIn = document.getElementById('dataCheckIn').value;
+        const dataCheckOut = document.getElementById('dataCheckOut').value;
+
+        if (dataCheckIn && dataCheckOut) {
+            try {
+                const response = await fetch(`/quartos/disponiveis?dataCheckIn=${dataCheckIn}&dataCheckOut=${dataCheckOut}`);
+                if (response.ok) {
+                    const quartos = await response.json();
+                    const quartoSelect = document.getElementById('quarto');
+                    quartoSelect.innerHTML = '<option value="" disabled>Selecione um Quarto Livre</option>';
+
+                    quartos.forEach(quarto => {
+                        const option = document.createElement('option');
+                        option.value = quarto.id;
+                        option.textContent = quarto.numero;
+                        quartoSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Erro ao buscar quartos disponíveis:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar quartos disponíveis:', error);
+            }
+        }
+    }
+</script>
 </body>
+
 </html>

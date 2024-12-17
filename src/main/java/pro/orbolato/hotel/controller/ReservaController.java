@@ -16,6 +16,7 @@ import pro.orbolato.hotel.service.ReservaService;
 import pro.orbolato.hotel.service.QuartoService;
 import pro.orbolato.hotel.service.ClienteService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -32,6 +33,7 @@ public class ReservaController {
     public String listarReservas(Model model, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = Pageable.ofSize(5).withPage(page);
         Page<Reserva> reservas = reservaService.listarTodas(pageable);
+        model.addAttribute("today", LocalDate.now());
         model.addAttribute("reservas", reservas);
         return "reserva/lista";
     }
