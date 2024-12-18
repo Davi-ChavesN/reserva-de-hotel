@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <title>Nova Reserva</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg w-full">
+    <h1 class="text-2xl font-bold text-center mb-6">Nova Reserva</h1>
+    <form th:action="@{/reservas}" th:object="${reserva}" method="post">
+        <div th:if="${erro}" class="bg-red-100 text-red-700 p-4 mb-4 rounded">
+            <p th:text="${erro}"></p>
+        </div>
+        <div class="mb-4">
+            <label for="cliente" class="block text-gray-700 text-sm font-bold mb-2">Cliente</label>
+            <select id="cliente" name="cliente.id" th:field="*{cliente.id}"
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
+                <option value="" disabled>Selecione um Cliente</option>
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label for="dataCheckIn" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-In</label>
+            <input type="date" id="dataCheckIn" th:field="*{dataCheckIn}"
+                   class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="dataCheckOut" class="block text-gray-700 text-sm font-bold mb-2">Data de Check-Out</label>
+            <input type="date" id="dataCheckOut" th:field="*{dataCheckOut}"
+                   class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="quarto" class="block text-gray-700 text-sm font-bold mb-2">Quarto</label>
+            <select id="quarto" name="quarto.id" th:field="*{quarto.id}"
+                    class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:ring focus:border-blue-300">
+                <option value="" disabled>Selecione um Quarto Livre</option>
+            </select>
+        </div>
+
+
+        <div class="flex justify-between space-x-4">
+            <a href="/reservas"
+               class="text-blue-500 hover:underline font-bold py-2 px-4">
+                Cancelar
+            </a>
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Salvar
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('dataCheckIn').addEventListener('change', updateQuartosDisponiveis);
+    document.getElementById('dataCheckOut').addEventListener('change', updateQuartosDisponiveis);
+
+    async function updateQuartosDisponiveis() {
+        const dataCheckIn = document.getElementById('dataCheckIn').value;
+        const dataCheckOut = document.getElementById('dataCheckOut').value;
+
+        if (dataCheckIn && dataCheckOut) {
+            try {
+                const response = await fetch(`/quartos/disponiveis?dataCheckIn=${dataCheckIn}&dataCheckOut=${dataCheckOut}`);
+                if (response.ok) {
+                    const quartos = await response.json();
+                    const quartoSelect = document.getElementById('quarto');
+                    quartoSelect.innerHTML = '<option value="" disabled>Selecione um Quarto Livre</option>';
+
+                    quartos.forEach(quarto => {
+                        const option = document.createElement('option');
+                        option.value = quarto.id;
+                        option.textContent = quarto.numero;
+                        quartoSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Erro ao buscar quartos disponíveis:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar quartos disponíveis:', error);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
